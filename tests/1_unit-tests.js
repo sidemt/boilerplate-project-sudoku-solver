@@ -86,18 +86,18 @@ suite('UnitTests', () => {
 
   suite('Function ____()', () => {
     // Valid complete puzzles pass
-    test('Valid puzzles pass', done => {
+    test('Valid puzzles pass', (done) => {
       const input = '769235418851496372432178956174569283395842761628713549283657194516924837947381625';
 
-      assert(false);
+      assert.equal(Solver.validatePuzzle(input), true);
       done();
     });
 
     // Invalid complete puzzles fail
-    test('Invalid puzzles fail', done => {
+    test('Invalid puzzles fail', (done) => {
       const input = '779235418851496372432178956174569283395842761628713549283657194516924837947381625';
 
-      assert(false);
+      assert.equal(Solver.validatePuzzle(input), false);
       done();
     });
   });

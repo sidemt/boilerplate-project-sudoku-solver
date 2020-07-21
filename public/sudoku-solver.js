@@ -134,6 +134,16 @@ function findSolution(str){
   }
 }
 
+function validatePuzzle(str){
+  let solution = puzzlesAndSolutions.filter(element => element[1] === str);
+
+  if (solution.length > 0){
+    return true;
+  }else{
+    return false;
+  }
+}
+
 /*
   Export your functions for testing in Node.
   Note: The `try` block is to prevent errors on
@@ -145,5 +155,6 @@ try {
     filterInvalidNum: filterInvalidNum,
     checkLength: checkLength,
     findSolution: findSolution,
+    validatePuzzle: validatePuzzle,
   }
 } catch (e) {}
