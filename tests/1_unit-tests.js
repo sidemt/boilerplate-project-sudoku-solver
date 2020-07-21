@@ -24,42 +24,63 @@ suite('UnitTests', () => {
         Solver = require('../public/sudoku-solver.js');
       });
   });
-  
+
   // Only the digits 1-9 are accepted
   // as valid input for the puzzle grid
   suite('Function ____()', () => {
     test('Valid "1-9" characters', (done) => {
       const input = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
-      // done();
+      input.forEach(function(elem) {
+        assert.equal(Solver.filterInvalidNum(elem), elem);
+      })
+      done();
     });
 
-    // Invalid characters or numbers are not accepted 
+    // Invalid characters or numbers are not accepted
     // as valid input for the puzzle grid
     test('Invalid characters (anything other than "1-9") are not accepted', (done) => {
       const input = ['!', 'a', '/', '+', '-', '0', '10', 0, '.'];
-
-      // done();
+      input.forEach(function(elem) {
+        assert.equal(Solver.filterInvalidNum(elem), '.');
+      })
+      done();
     });
   });
-  
+
   suite('Function ____()', () => {
     test('Parses a valid puzzle string into an object', done => {
       const input = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
-      
-      // done();
+
+      let obj = Solver.parsePuzzleString(input)
+
+      assert.equal(obj['A1'], '.');
+      assert.equal(obj['A3'], '9');
+      assert.equal(obj['I7'], '6');
+      assert.equal(obj['I9'], '.');
+
+      done();
     });
-    
-    // Puzzles that are not 81 numbers/periods long show the message 
+
+    // Puzzles that are not 81 numbers/periods long show the message
     // "Error: Expected puzzle to be 81 characters long." in the
     // `div` with the id "error-msg"
     test('Shows an error for puzzles that are not 81 numbers long', done => {
       const shortStr = '83.9.....6.62.71...9......1945....4.37.4.3..6..';
       const longStr = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6...';
+      const validStr = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
       const errorMsg = 'Error: Expected puzzle to be 81 characters long.';
       const errorDiv = document.getElementById('error-msg');
-      
-      // done();
+
+      Solver.checkLength(shortStr);
+      assert.equal(errorDiv.innerHTML, errorMsg);
+
+      Solver.checkLength(longStr);
+      assert.equal(errorDiv.innerHTML, errorMsg);
+
+      Solver.checkLength(validStr);
+      assert.equal(errorDiv.innerHTML, '');
+      done();
     });
   });
 
@@ -78,13 +99,13 @@ suite('UnitTests', () => {
       // done();
     });
   });
-  
-  
+
+
   suite('Function ____()', () => {
     // Returns the expected solution for a valid, incomplete puzzle
     test('Returns the expected solution for an incomplete puzzle', done => {
       const input = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
-      
+
       // done();
     });
   });
