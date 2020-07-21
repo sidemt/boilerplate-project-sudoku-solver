@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   TEXTAREA.addEventListener('input', textAreaHandler);
   setEventListenerToGrids();
   document.getElementById('solve-button').addEventListener('click', solveHandler);
+  document.getElementById('clear-button').addEventListener('click', clearHandler);
 });
 
 // Parse a valid puzzle string into an object
@@ -101,6 +102,12 @@ function solveHandler(event){
     TEXTAREA.value = solution;
     updateGrid(parsePuzzleString(solution));
   }
+}
+
+function clearHandler(event){
+  console.log('clear');
+  TEXTAREA.value = '';
+  updateGrid(parsePuzzleString(''));
 }
 
 function updateGrid(obj){
