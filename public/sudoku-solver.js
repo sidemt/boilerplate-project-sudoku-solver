@@ -1,17 +1,10 @@
-// import { puzzlesAndSolutions } from './puzzle-strings.js';
+import { puzzlesAndSolutions } from './puzzle-strings.js';
 
 const TEXTAREA = document.getElementById('text-input');
 const ERRORMSG = document.getElementById('error-msg');
 const VALID_NUMS = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 const ROWS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
 const COLS = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
-
-function calcGridNum(grid_name){
-  let arr = grid_name.split('');
-  let row_index = ROWS.indexOf(arr[0]);
-  let col_index = COLS.indexOf(arr[1]);
-  return row_index * 9 + col_index;
-}
 
 document.addEventListener('DOMContentLoaded', () => {
   // Load a simple puzzle into the text area
@@ -26,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   TEXTAREA.addEventListener('input', textAreaHandler);
   setEventListenerToGrids();
+  document.getElementById('solve-button').addEventListener('click', solveHandler);
 });
 
 // Parse a valid puzzle string into an object
@@ -98,6 +92,17 @@ function textAreaHandler(event){
   updateGrid(obj);
 }
 
+function solveHandler(event){
+  console.log('solve');
+  let val = TEXTAREA.value;
+  let solution = findSolution(val);
+  if (solution.length === 81) {
+    console.log('solution found');
+    TEXTAREA.value = solution;
+    updateGrid(parsePuzzleString(solution));
+  }
+}
+
 function updateGrid(obj){
   // Fill in the sudoku grid
   ROWS.forEach(row => {
@@ -112,6 +117,16 @@ function updateGrid(obj){
   })
 }
 
+function findSolution(str){
+  let solution = puzzlesAndSolutions.filter(element => element[0] === str);
+
+  if (solution.length > 0){
+    return solution[0][1];
+  }else{
+    return '';
+  }
+}
+
 /*
   Export your functions for testing in Node.
   Note: The `try` block is to prevent errors on
@@ -122,5 +137,6 @@ try {
     parsePuzzleString: parsePuzzleString,
     filterInvalidNum: filterInvalidNum,
     checkLength: checkLength,
+    findSolution: findSolution,
   }
 } catch (e) {}
