@@ -7,6 +7,7 @@ const ROWS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
 const COLS = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOMContentLoaded');
   // Load a simple puzzle into the text area
   TEXTAREA.value = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
 
@@ -66,7 +67,7 @@ function setEventListenerToGrids() {
     COLS.forEach(col => {
 
       let puzzle_grid = document.getElementById(`${row}${col}`);
-      console.log(`${row}${col} count: ${count}`);
+      // console.log(`${row}${col} count: ${count}`);
       puzzle_grid.addEventListener('input', inputHandler);
       count++;
     })
@@ -76,10 +77,14 @@ function setEventListenerToGrids() {
 function inputHandler(event){
   console.log('input', event.target.id);
 
-  let val = event.target.value;
+  updateTextArea(event.target.id, event.target.value);
+}
+
+function updateTextArea(targetId, targetVal){
+  // let val = event.target.value;
   let obj = parsePuzzleString(TEXTAREA.value);
   // Update corresponding value
-  obj[event.target.id] = filterInvalidNum(val);
+  obj[targetId] = filterInvalidNum(targetVal);
 
   // Update text area
   TEXTAREA.value = parsePuzzleObj(obj);
@@ -156,5 +161,10 @@ try {
     checkLength: checkLength,
     findSolution: findSolution,
     validatePuzzle: validatePuzzle,
+    textAreaHandler: textAreaHandler,
+    updateTextArea: updateTextArea,
+    updateGrid: updateGrid,
+    clearHandler: clearHandler,
+    solveHandler: solveHandler
   }
 } catch (e) {}
